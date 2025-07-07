@@ -1,16 +1,18 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
-
 
 const Navbar = () => {
   const navRef = useRef(null);
   const navigate = useNavigate();
-  const token = localStorage.getItem('token');
+
+  const [token, setToken] = useState(localStorage.getItem('token'));
+  const role = localStorage.getItem('role');
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
+    setToken(null); 
     navigate('/login');
   };
 
@@ -34,6 +36,7 @@ const Navbar = () => {
         <Link to="/" className="hover:underline hover:text-yellow-300">
           Home
         </Link>
+
         {!token && (
           <>
             <Link to="/signup" className="hover:underline hover:text-yellow-300">
@@ -44,11 +47,19 @@ const Navbar = () => {
             </Link>
           </>
         )}
+
         {token && (
           <>
-            <Link to="/submit" className="hover:underline hover:text-yellow-300">
-              Submit
-            </Link>
+            {role === 'admin' && (
+              <Link to="/admin" className="hover:underline hover:text-yellow-300">
+                Dashboard
+              </Link>
+            )}
+            {role !== 'admin' && (
+              <Link to="/submit" className="hover:underline hover:text-yellow-300">
+                Submit
+              </Link>
+            )}
             <button
               onClick={handleLogout}
               className="bg-red-500 hover:bg-red-600 px-3 py-1 rounded-md transition"

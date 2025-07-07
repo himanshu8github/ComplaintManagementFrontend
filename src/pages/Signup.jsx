@@ -19,9 +19,11 @@ const SignupPage = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   useEffect(() => {
     gsap.from(formRef.current, {
-      opacity: 100,
+      opacity: 0,
       y: 30,
       duration: 1,
       ease: 'power2.out',
@@ -53,7 +55,7 @@ const SignupPage = () => {
         payload.adminKey = formData.adminKey;
       }
 
-      const res = await axios.post('http://localhost:3000/api/auth/register', payload);
+      const res = await axios.post(`${API_BASE_URL}/api/auth/register`, payload);
       setSuccess(res.data.message || 'Registered successfully');
 
       setTimeout(() => navigate('/login'), 1500);

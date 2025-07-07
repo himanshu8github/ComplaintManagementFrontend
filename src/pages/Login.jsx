@@ -5,6 +5,8 @@ import gsap from 'gsap';
 import Navbar from './Navbar';
 
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,14 +19,14 @@ export default function Login() {
   useEffect(() => {
     gsap.from(formRef.current, {
       y: 50,
-      opacity: 100,
+      opacity: 0,
       duration: 1,
       ease: 'power3.out',
     });
 
     gsap.from(buttonRef.current, {
       scale: 0.8,
-      opacity: 100,
+      opacity: 0,
       duration: 0.6,
       delay: 1,
       ease: 'back.out(1.7)',
@@ -35,7 +37,7 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const res = await axios.post('http://localhost:3000/api/auth/login', {
+      const res = await axios.post(`${API_BASE_URL}/api/auth/login`, {
         email,
         password,
       });
@@ -89,7 +91,6 @@ export default function Login() {
         >
           Login
         </button>
-        
       </form>
     </div>
   );

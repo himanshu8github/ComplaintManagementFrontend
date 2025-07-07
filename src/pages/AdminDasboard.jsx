@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Navbar from '../pages/Navbar'
+import Navbar from '../pages/Navbar';
+
+
+const API_BASE_URL = "https://complain-sysytem-backend-pvo3.vercel.app";
 
 export default function AdminDashboard() {
   const [complaints, setComplaints] = useState([]);
@@ -9,7 +12,7 @@ export default function AdminDashboard() {
     const fetchComplaints = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get("http://localhost:3000/api/complaints", {
+        const res = await axios.get(`${API_BASE_URL}/api/complaints`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -27,7 +30,7 @@ export default function AdminDashboard() {
     try {
       const token = localStorage.getItem("token");
       await axios.put(
-        `http://localhost:3000/api/complaints/${id}`,
+        `${API_BASE_URL}/api/complaints/${id}`,
         { status: "Resolved" },
         {
           headers: {
@@ -48,7 +51,7 @@ export default function AdminDashboard() {
   const handleDelete = async (id) => {
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:3000/api/complaints/${id}`, {
+      await axios.delete(`${API_BASE_URL}/api/complaints/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -63,6 +66,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
+      <Navbar />
       <h1 className="text-3xl font-bold mb-6 text-center">Admin Dashboard</h1>
 
       <div className="overflow-x-auto">
